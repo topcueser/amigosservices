@@ -25,8 +25,11 @@ public class CustomerService {
         customerRepository.saveAndFlush(customer);
 
         // todo: check if fraudster
+        // url : http://localhost:8081/api/v1/fraud-check/{customerId}
+        // eureka eklendiğinde server tanımlandığı için url aşağıdaki gibi düzenlenir.
+        // application.name üzerinden uppercase ile tanınmış olur.
         FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
+                "http://FRAUD/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 customer.getId()
         );
