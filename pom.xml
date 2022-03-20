@@ -8,15 +8,19 @@
   <artifactId>amigosservices</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+  <name>Spring Cloud Microservice App Template</name>
+  <description>Spring Cloud Microservice App Template</description>
 
-  <modules>
-    <module>customer</module>
-      <module>fraud</module>
-    <module>eureka-server</module>
-  </modules>
-
-  <name>amigosservices</name>
-  <url>https://esertopcu.com</url>
+  <developers>
+    <developer>
+      <id>topcueser</id>
+      <name>Eser Topçu</name>
+      <email>topcueser@gmail.com</email>
+      <roles>
+        <role>Software Engineer</role>
+      </roles>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +30,14 @@
     <spring.boot.dependencies.version>2.5.7</spring.boot.dependencies.version>
     <spring.cloud-version>2020.0.3</spring.cloud-version>
   </properties>
+
+  <modules>
+    <module>customer</module>
+      <module>fraud</module>
+    <module>eureka-server</module>
+    <module>notification</module>
+    <module>amqp</module>
+  </modules>
 
   <dependencyManagement>
     <dependencies>
