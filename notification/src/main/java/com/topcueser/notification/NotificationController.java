@@ -1,5 +1,6 @@
 package com.topcueser.notification;
 
+import com.topcueser.clients.notification.NotificationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

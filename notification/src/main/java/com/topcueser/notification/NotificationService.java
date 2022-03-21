@@ -1,5 +1,6 @@
 package com.topcueser.notification;
 
+import com.topcueser.clients.notification.NotificationRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

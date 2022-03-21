@@ -1,6 +1,6 @@
 package com.topcueser.notification.rabbitmq;
 
-import com.topcueser.notification.NotificationRequest;
+import com.topcueser.clients.notification.NotificationRequest;
 import com.topcueser.notification.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

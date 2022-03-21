@@ -1,5 +1,7 @@
 package com.topcueser.customer;
 
+import com.topcueser.amqp.RabbitMQMessageProducer;
+import com.topcueser.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +13,7 @@ public class CustomerService {
     // constructor olmadan @AllArgsConstructor ile dependency sağlanmış olur.
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -38,6 +41,16 @@ public class CustomerService {
             throw  new IllegalStateException("fraudster");
         }
 
+        NotificationRequest notificationRequest = new NotificationRequest(
+                customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome to Çanakkale...", customer.getFirstName())
+        );
 
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.topcueser.notification;
+package com.topcueser.clients.notification;
 
 public record NotificationRequest(
         Integer toCustomerId,
