@@ -33,11 +33,12 @@
 
   <modules>
     <module>customer</module>
-      <module>fraud</module>
+    <module>fraud</module>
     <module>eureka-server</module>
     <module>notification</module>
     <module>amqp</module>
-      <module>clients</module>
+    <module>clients</module>
+    <module>config-server</module>
   </modules>
 
   <dependencyManagement>
