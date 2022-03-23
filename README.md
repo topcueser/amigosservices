@@ -4,6 +4,7 @@
 
 *** | URL |
 | --- | --- |
+| Config Server         | http://localhost:8888/ |
 | Eureka Server         | http://localhost:8761/ |
 | Customer Service      | http://localhost:8080/ |
 | Fraud Service         | http://localhost:8081/ |
