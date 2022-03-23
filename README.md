@@ -120,7 +120,7 @@ Projeye 8761 portundan erişilmektedir.
 - Spring Cloud Netflix Eureka, servislerin makina adı ve bağlantı noktalarına ihtiyaç duymaksızın birbiri ile iletişim kurmasını sağlar.
 - Bir servis, ihtiyacı olan bir diğer servise ulaşmak istediği zaman, bilgileri Eureka Server üzerinden alabiliyor ve böylelikle uygulamamız içerisinde diğer servislerin IP, Port vs. gibi bilgilerini tutmak zorunda kalmıyoruz. 
 
-### Projemizin bu rolü üstlenmesini sağlamak için, 
+<b>Projemizin bu rolü üstlenmesini sağlamak için, </b>
 
  -  ` @EnableEurekaServer ` ile projeyi çalıştıran ana sınıf işaretlenmelidir. Bağımlılık olarak ` spring-cloud-netflix-eureka-server ` eklenmelidir.
 
