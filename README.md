@@ -206,7 +206,7 @@ eureka:
 2-) Feign Client
 ```
 
-_<h2>RestTemplate Kullanmak</h2>_
+_<h2>1-) RestTemplate Kullanmak</h2>_
 
 - `Customer` servis üzerinden `Fraud` servise istekte bulunalım.
 
@@ -234,7 +234,7 @@ FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
 );
 ```
 
-_<h2>Feign Client Kullanmak</h2>_
+_<h2>2-) Feign Client Kullanmak</h2>_
 
 - İstek `Customer` servisi üzerinden gönderileceği için  aşağıdaki bağımlılık eklenmelidir.
 
@@ -273,4 +273,10 @@ public class CustomerApplication {
 - Bu işlemlerden sonra `FeignClient` ın uygulanması aşağıdaki gibi olacaktır.
 
 ```java
+// constructor içerisinde Spring Boot gerekli bağımlılığı oluşturur
+private final FraudFeignClient fraudFeignClient;
+
+// oluşturduğumuz FraudFeignClient interface i üzerinden işlem gerçekleştiriliyor.
+FraudCheckResponse fraudCheckResponse = fraudFeignClient.isFraudster(customer.getId());
+
 ```
