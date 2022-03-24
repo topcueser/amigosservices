@@ -188,6 +188,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-    fetch-registry: true # eurak-server projesinin kayıt defteri bilgilerni al
+    fetch-registry: true # eureka-server projesinin kayıt defteri bilgilerni al
     register-with-eureka: true # kendini eureka-server projesine kayıt et
 ```
