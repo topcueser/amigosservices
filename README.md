@@ -115,8 +115,7 @@ spring:
 ```
 # eureka-server
 
-- Tüm ulaşılabilir projelerin bilgilerinin tutulduğu projedir.
-Projeye 8761 portundan erişilmektedir.
+- Tüm ulaşılabilir projelerin bilgilerinin tutulduğu projedir. Projeye 8761 portundan erişilmektedir.
 - Spring Cloud Netflix Eureka, servislerin makina adı ve bağlantı noktalarına ihtiyaç duymaksızın birbiri ile iletişim kurmasını sağlar.
 - Bir servis, ihtiyacı olan bir diğer servise ulaşmak istediği zaman, bilgileri Eureka Server üzerinden alabiliyor ve böylelikle uygulamamız içerisinde diğer servislerin IP, Port vs. gibi bilgilerini tutmak zorunda kalmıyoruz. 
 
@@ -181,3 +180,14 @@ public class CustomerApplication {
      Zookeeper ( https://zookeeper.apache.org )  
  
 desteklemek için genel bir alt yapı sağlanırken `@EnableEurekaClient` sadece Eureka yı desteklemektedir. Bu projede Eureka kullanılmaktadır.
+
+Eureka Server a kayıt olacak client için `application.yml` içerisinde aşağıdaki tanımlamalar yapılmalıdır. 
+
+```yml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true # eurak-server projesinin kayıt defteri bilgilerni al
+    register-with-eureka: true # kendini eureka-server projesine kayıt et
+```
