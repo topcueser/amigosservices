@@ -68,17 +68,17 @@ public class ConfigServerApplication {
  
  -  ` application ` veya ` bootstrap `  isimli dosyada konfigürasyonu alacağı projenin bilgisi şu şekilde eklemelidir.
 
-    ```properties  
-    server.port: 8888
-    spring.application.name: config-server
-    spring.cloud.config.server.git.uri: https://github.com/topcueser/microservices-app-config-server  
-    ```
+```properties  
+server.port: 8888
+spring.application.name: config-server
+spring.cloud.config.server.git.uri: https://github.com/topcueser/microservices-app-config-server  
+```
 
-    ve hangi klasörlerde arama yapılabileceği, ulaşılabileceğini aşağıdaki şekilde belirtiyoruz.
-    
-    ```properties
-    spring.cloud.config.server.git.searchPaths: client-project-config 
-    ```
+ve hangi klasörlerde arama yapılabileceği, ulaşılabileceğini aşağıdaki şekilde belirtiyoruz.
+
+```properties
+spring.cloud.config.server.git.searchPaths: client-project-config 
+```
     
 Istenilen profillere göre konfigürasyonlara ulaşabildiğimizi kontrol edelim.
 
