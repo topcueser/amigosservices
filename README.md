@@ -20,6 +20,8 @@
 
 - [eureka-server](#eureka-server) (Discovery Service)
 
+- [feign-client](#feign-client) (Spring Cloud OpenFeign)
+
 <br>
 
 # microservice-app-config-server
@@ -191,3 +193,45 @@ eureka:
     fetch-registry: true # eureka-server projesinin kayıt defteri bilgilerni al
     register-with-eureka: true # kendini eureka-server projesine kayıt et
 ```
+# feign-client
+
+<b> 
+- Spring Boot uygulamalarında bir servisten diğer servise rest isteklerini nasil atabiliriz?
+<br></br>
+</b>
+
+```
+1-) RestTemplate
+
+2-) Feign Client
+```
+
+_<h2>RestTemplate Kullanmak</h2>_
+
+- `Customer` servis üzerinden `Fraud` servise istekte bulunalım.
+
+_<b>Eureka Server olmadan</b>_
+
+```java
+private final RestTemplate restTemplate;
+FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
+        "http://localhost:8081/api/v1/fraud-check/{customerId}",
+        FraudCheckResponse.class,
+        customer.getId()
+);
+```
+
+_<b>Eureka Server varken : 
+Eureka Server da servis bilgileri kayıtlı olduğu için base-url, port gibi bilgileri bilmeden direk application-name üzerinden istekte bulunabiliriz.
+</b>_
+
+```java
+private final RestTemplate restTemplate;
+FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
+        "http://FRAUD/api/v1/fraud-check/{customerId}",
+        FraudCheckResponse.class,
+        customer.getId()
+);
+```
+
+_<h2>Feign Client Kullanmak</h2>_
