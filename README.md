@@ -143,4 +143,41 @@ public class EurekaServerApplication {
     </dependency>
 </dependencies>
 ```
-devam edecek...
+- `eureka-server` için oluşturulacak `application.yml` içerisinde kendi kendine kayıt olmaya çalışmasını engellemek ve  client olarak çalışırken alması gereken kayıt defteri(eureka) bilgilerini almaması için aşağıdaki bilgileri eklemeliyiz.
+
+```yml
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+```
+
+- Kayıt olacak olan projelerin kendilerini çalıştıran ana sınıf `@EnableEurekaClient` veya  `@EnableDiscoveryClient` ile işaretlenmelidir. Bağımlılık olarak `spring-cloud-starter-netflix-eureka-client` eklenmelidir.
+
+<b>CustomerApplication.java (Eureka Server a kayıt olan client)</b>
+```java
+@SpringBootApplication
+@EnableEurekaClient
+public class CustomerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerApplication.class, args);
+    }
+}
+```
+<b>pom.xml</b>
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+</dependencies>
+```
+
+`@EnableDiscoveryClient` ile işaretlenirse
+
+     Eureka    ( https://netflix.github.io )
+     Consul    ( https://www.consul.io )
+     Zookeeper ( https://zookeeper.apache.org )  
+ 
+desteklemek için genel bir alt yapı sağlanırken `@EnableEurekaClient` sadece Eureka yı desteklemektedir. Bu projede Eureka kullanılmaktadır.
