@@ -235,3 +235,42 @@ FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
 ```
 
 _<h2>Feign Client Kullanmak</h2>_
+
+- İstek `Customer` servisi üzerinden gönderileceği için  aşağıdaki bağımlılık eklenmelidir.
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- `@FeignClient` için bir interface eklenir. 
+
+```java
+// @FeignClient(value = "fraud", url = "http://localhost:8081") // eureka-server olmasaydı
+@FeignClient(value = "fraud")
+public interface FraudFeignClient {
+    @GetMapping(path = "api/v1/fraud-check/{customerId}")
+    FraudCheckResponse isFraudster(@PathVariable("customerId") Integer customerId);
+}
+```
+
+- Main metodumuzun olduğu `CustomerApplication` sınıfına `@EnableFeignClients` anotasyonu eklenir.
+
+```java
+@EnableEurekaClient // eureka-server için 
+@EnableFeignClients
+public class CustomerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerApplication.class, args);
+    }
+}
+```
+
+- Bu işlemlerden sonra `FeignClient` ın uygulanması aşağıdaki gibi olacaktır.
+
+```java
+```
