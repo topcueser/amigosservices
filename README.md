@@ -4,13 +4,14 @@
 
 *** | URL |
 | --- | --- |
-| Config Server         | http://localhost:8888/ |
-| Eureka Server         | http://localhost:8761/ |
-| Customer Service      | http://localhost:8080/ |
-| Fraud Service         | http://localhost:8081/ |
-| Notification Service  | http://localhost:8082/ |
-| RabbitMQ Management   | http://localhost:15672/ |
-| Postgresql - pgAdmin  | http://localhost:5050/ |
+| Config Server           | http://localhost:8888/  |
+| Eureka Server           | http://localhost:8761/  |
+| Customer Service        | http://localhost:8080/  |
+| Fraud Service           | http://localhost:8081/  |
+| Notification Service    | http://localhost:8082/  |
+| RabbitMQ Management     | http://localhost:15672/ |
+| Postgresql - pgAdmin    | http://localhost:5050/  |
+| Zipkin Server (Docker)  | http://localhost:9411/  |
 
 # Linkler
 
@@ -21,6 +22,8 @@
 - [eureka-server](#eureka-server) (Discovery Service)
 
 - [feign-client](#feign-client) (Spring Cloud OpenFeign)
+
+- [zipkin-sleuth](#zipkin-sleuth) (Spring Cloud Zipkin Sleuth)
 
 <br>
 
@@ -108,6 +111,7 @@ tekrar belirmemize gerek kalmadan doğrudan dosyalara ulaşabiliyoruz.
 </dependencies>
 ```
 - `config-server` örnek olarak `customer` service tarafından kullanılsın ve `customer` servisin `application.yml` içerisinde aşağıdaki gibi tanım yapılmalıdır.
+
 ```yml
 spring:
   application:
@@ -280,3 +284,108 @@ private final FraudFeignClient fraudFeignClient;
 FraudCheckResponse fraudCheckResponse = fraudFeignClient.isFraudster(customer.getId());
 
 ```
+
+# zipkin-sleuth
+
+- Microservis mimarisinde birden çok servis bulunmaktadır. Bu servisler kendi aralarında veya notification yolu ile diğer servisler ile iletişim halindedir. Bazı durumlarda arayüz üzerinden yaptığımız bir isteğin, sonuçlanana kadar bütün izlerini takip etme istediğimiz olabilir. Bunun için  `Zipkin` kullanabiliriz.
+
+<p>Zipkin i projeye dahil etmenin 2 yöntemi vardır.</p>
+
+```
+1-) Gömülü(Embedded) Zipkin Server 
+
+2-) Docker ile Zipkin Server
+```
+
+_<h2>1-) Gömülü(Embedded) Zipkin Server Kurulumu</h2>_
+
+- Burada daha önceden kurduğumuz `Eureka` veya `Config` Server gibi Spring Boot bağımlılığı eklenerek direk proje içerisinde oluşturulur. Eklenecek bağımlılık aşağıdaki gibidir.
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.zipkin.java</groupId>
+        <artifactId>zipkin-server</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.zipkin.java</groupId>
+        <artifactId>zipkin-autoconfigure-ui</artifactId>
+    </dependency>
+</dependencies>
+```
+
+- Main metodumuzun olduğu `ZipkinServerApplication` sınıfına `@EnableZipkinServer` anotasyonu eklenir.
+
+```java
+@SpringBootApplication
+@EnableZipkinServer
+public class ZipkinServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ZipkinServerApplication.class, args);
+    }
+}
+```
+ -  `application.properties` isimli dosyada konfigürasyon bilgileri ekleniyor. yml yerine application.properties kullanıyor çünkü burada sadece spring boot ile çalışıyoruz.
+
+```properties  
+server.port: 9411
+spring.application.name: zipkin-server  
+```
+
+_<h2>1-) Docker ile Zipkin Server Kurulumu</h2>_
+
+- Projemizin `docker-compose.yml` içerisine image bilgisini ekleyerek direk projemize dahil edebiliriz.
+
+```yml
+zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+        - "9411:9411"
+```
+**Zipkin Server ı kullanacak olan servislerin aşağıdaki bağımlılı eklemeleri gerekmektedir.**
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-sleuth</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+    </dependency>
+</dependencies>
+```
+**Sonrasında `application.yml` içerisinde Zipkin-Server ın adresi belirtilir.**
+
+```yml
+zipkin:
+    base-url: http://localhost:9411
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+---
+- Naming Server (Eureka)
+- Ribbon (Client Side Load Balancing)
+- Feign (Easier REST Clients)
+
+_<h3>Görünürlük ve izleme</h3>_
+- Zipkin Distributed Tracing
+- Netflix API Gateway
+
+_<h3>Yapılandırma Yönetimi</h3>_
+- Spring Cloud Config Server
+
+_<h3>Hata Toleransı</h3>_
+- Hystrix
